@@ -1,0 +1,23 @@
+{
+    "DataError_MultiUser": {
+        "Description": "There are multiple user with same username in database"
+    },
+    "DataError_WrongPassword": {
+        "Description": "The password is wrong for provideed username"
+    },
+    "DataError_WrongUserName": {
+        "Description": "The provided username is not registered"
+    },
+    "DataError_AlreadyUser": {
+        "Description": "The provided username is already registered"
+    },
+    "DataError_UserCreation": {
+        "Description": "Unable to create user due to unknown error"
+    },
+    "ValidationError_SQLProtection": {
+        "Description": "Unable to apply SQL Injection Protection measures"
+    },
+    "ValidationError_BadValue": {
+        "Description": "Data Validation experienced the bad value in check"
+    }
+}

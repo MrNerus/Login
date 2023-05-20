@@ -1,0 +1,108 @@
+@{
+    Layout = null;
+}
+<p id="serverMessage"></p>
+<div>
+    <div>
+        <label for="username">Username: </label>
+        <input type="text" name="username" id="username">
+    </div>
+    <div>
+        <label for="password">Password: </label>
+        <input type="text" name="password" id="password">
+    </div>
+    <div>
+        <label for="name">Name: </label>
+        <input type="text" name="name" id="name">
+    </div>
+    <div>
+        <label for="email">Email: </label>
+        <input type="text" name="email" id="email">
+    </div>
+    <div>
+        <label for="email">Address: </label>
+        <input type="text" name="address" id="address">
+    </div>
+    <div>
+        <label for="phno">Phone number: </label>
+        <input type="text" name="phno" id="phno">
+    </div>
+    <button onclick="register()">Subimt</button>
+</div>
+<script>
+    function register() {
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+        let name     = document.getElementById("name"    ).value;
+        let email    = document.getElementById("email"   ).value;
+        let address  = document.getElementById("address" ).value;
+        let phno     = document.getElementById("phno"    ).value;
+
+        let data = JSON.stringify(
+            {
+                "username": username,
+                "password": password,
+                "name"    : name,
+                "email"   : email,
+                "address" : email,
+                "phno"    : phno
+            });
+
+        let xhr = new XMLHttpRequest();
+        let url = "/Signup/";
+
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onreadystatechange = function () {
+            console.log("SENT to Server");
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Handle the response from the server
+                var response = JSON.parse(this.responseText);
+
+                if (response["status"] == "failed") {
+                    if (response["message"] == "Bad Value") {
+                        document.getElementById("serverMessage").innerHTML = "Server: I don't even know what you are saying... 😕 🤔 ❓";
+                    } else if (response["message"] == "01 Bad Value") {
+                        document.getElementById("serverMessage").innerHTML = "Ha Hah!";
+                    } else {
+                        document.getElementById("serverMessage").innerHTML = "Server talks bulshit." + response["message"];
+                    }
+                } else if (response["status"] == "good") {
+                    // window.location(response["redirect"]);
+                    document.getElementById("serverMessage").innerHTML = "Server registered you sucessfully";
+                    resetUI();
+
+                }
+                // Everything below is has to ne modified
+                
+                @* if (response["redirect"] != "none") {
+                    if (localStorage.getItem("Invio-session") == null) { localStorage.setItem('Invio-session', '{}') }
+                    var a = JSON.parse(localStorage.getItem("Invio-session"));
+                    a[username] = response["Session_Token"];
+                    localStorage.setItem("Invio-session", JSON.stringify(a));
+                    window.location.href = response["redirect"];
+                    return;
+                }
+                if (response["ServerResponse_Login1"] != "none") {
+                    document.getElementById("ServerResponse_Login1").innerHTML = `${response["ServerResponse_Login1"]}`;
+                }
+                if (response["Reset_UI"] == true) {
+                    document.getElementById("uname").value = "";
+                    document.getElementById("pswd").value = "";
+                } *@
+            }
+        };
+        xhr.send(data);
+    }
+</script>
+<script>
+    function resetUI() {
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
+        document.getElementById("name"    ).value = "";
+        document.getElementById("email"   ).value = "";
+        document.getElementById("address" ).value = "";
+        document.getElementById("phno"    ).value = "";
+    }
+</script>
